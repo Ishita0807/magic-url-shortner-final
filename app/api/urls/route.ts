@@ -2,6 +2,14 @@ import { prisma } from "@/lib/db";
 import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 
+export interface ShortURL {
+    id: string;
+    slug: string;
+    original: string;
+    createdAt: Date;
+    clicks: number;
+    userId?: string | null;
+}
 export async function GET(request: NextRequest) {
     const JWT_SECRET = process.env.JWT_SECRET!;
     const token = request.headers.get('Authorization')?.split(' ')[1]; //Bearer token
@@ -26,7 +34,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({error: 'User not found'}, {status: 404});
     }
 
-    const urls:any[] = await prisma.shortURL.findMany({
+    const urls: ShortURL[] = await prisma.shortURL.findMany({
         where: { userId: user.id },
         select: {
             id: true,

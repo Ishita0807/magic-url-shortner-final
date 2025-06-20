@@ -1,6 +1,6 @@
 'use client';
 
-import { Eye, EyeClosed, EyeOff } from 'lucide-react';
+import { Eye, EyeClosed } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -94,7 +94,7 @@ export default function LoginForm() {
       </button>
 
       <p>
-        Don't have an account? <a href="/register" className="text-blue-600 hover:underline">Register here</a>
+        Don&apos;t have an account? <a href="/register" className="text-blue-600 hover:underline">Register here</a>
       </p>
     </form>
   );

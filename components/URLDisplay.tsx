@@ -4,11 +4,16 @@ import { LinkPreview } from "./ui/MicroLink";
 type Props = {
   shortUrl: string;
 };
-
+type URL = {
+  original: string;
+  title: string;
+  description: string;
+  image: string;
+};
 export default function URLDisplay({ shortUrl }: Props) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
   const [clicked, setClicked] = useState<boolean>(false);
-  const [ogData, setOgData] = useState<any>(null);
+  const [ogData, setOgData] = useState<URL | null>(null);
   useEffect(() => {
     const fetchOg = async () => {
       try {
@@ -31,7 +36,7 @@ export default function URLDisplay({ shortUrl }: Props) {
       <div className="mt-2 p-4 bg-gray-800 rounded-md shadow-md flex items-center justify-between gap-1">
         
            <LinkPreview
-          url={ogData?.original}
+          url={ogData?.original || ""}
           className="font-bold bg-clip-text text-transparent bg-gradient-to-br from-purple-500 to-pink-500"
         >
           {`${BASE_URL}/api/${shortUrl}`}

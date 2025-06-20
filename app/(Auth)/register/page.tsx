@@ -37,6 +37,7 @@ export default function RegisterForm() {
       console.log('Server response:', data);
       if(res.ok) {
         localStorage.setItem('token', data.token);
+        router.push('/'); 
       }
       else {
         console.error('Registration failed:', data.message);
