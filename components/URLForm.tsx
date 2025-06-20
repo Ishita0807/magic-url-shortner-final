@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 
 export default function URLForm({ onShorten }: { onShorten: (slug: string) => void }) {
   const [url, setUrl] = useState('')
