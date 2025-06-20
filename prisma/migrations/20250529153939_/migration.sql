@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "ShortURL" ADD COLUMN     "userId" TEXT;
+
+-- AddForeignKey
+ALTER TABLE "ShortURL" ADD CONSTRAINT "ShortURL_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE SET NULL ON UPDATE CASCADE;
