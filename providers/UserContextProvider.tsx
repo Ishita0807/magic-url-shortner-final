@@ -22,12 +22,13 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchUser = async () => {
+    if (typeof window === 'undefined') {
+      // Don't run on server
+      return;
+    }
     setLoading(true);
     try {
-      let token = null;
-      if (typeof window !== 'undefined') {
-        token = localStorage.getItem('token') ;
-      }
+      const token = localStorage.getItem('token');
       const res = await fetch("/api/me", {
         headers: {
           ...(token ? { 'Authorization': `Bearer ${token}` } : {})
