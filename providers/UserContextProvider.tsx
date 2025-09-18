@@ -26,7 +26,7 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     try {
       let token = null;
       if (typeof window !== 'undefined') {
-        token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_USER_TOKEN;
+        token = localStorage.getItem('token') ;
       }
       const res = await fetch("/api/me", {
         headers: {
