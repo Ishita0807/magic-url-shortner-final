@@ -1,24 +1,24 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import URLForm from '@/components/URLForm'
 import URLDisplay from '@/components/URLDisplay'
 
-type User = {
-  id: string;
-  email: string;
-  name: string;
-  password: string;
-  urls: [
-    {
-      id: string;
-      original: string;
-      slug: string;
-      createdAt: string;
-      clicks: number;
-      userId: string;
-    }
-  ]
-}
+// type User = {
+//   id: string;
+//   email: string;
+//   name: string;
+//   password: string;
+//   urls: [
+//     {
+//       id: string;
+//       original: string;
+//       slug: string;
+//       createdAt: string;
+//       clicks: number;
+//       userId: string;
+//     }
+//   ]
+// }
 export default function Home() {
 
   const [slug, setSlug] = useState<string | null>(null);
