@@ -2,6 +2,7 @@
 
 import { Eye, EyeClosed } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '../../../providers/UserContextProvider';
 import { useState } from 'react';
 
 export default function LoginForm() {
@@ -9,6 +10,8 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const { refreshUser } = useUser();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -33,13 +36,14 @@ export default function LoginForm() {
       const data = await res.json();
       console.log('Server response:', data);
 
-        if (res.ok) {
-            localStorage.setItem('token', data.token);
-            router.push('/'); // Redirect to home page after successful login
-        } else {
-            console.error('Login failed:', data.message);
-            alert(data.message || 'Login failed. Please try again.');
-        }
+    if (res.ok) {
+      localStorage.setItem('token', data.token);
+      await refreshUser();
+      router.push('/'); // Redirect to home page after successful login
+    } else {
+      console.error('Login failed:', data.message);
+      alert(data.message || 'Login failed. Please try again.');
+    }
 
     } catch (err) {
       console.error('Login error:', err);

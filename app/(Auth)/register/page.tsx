@@ -2,6 +2,7 @@
 
 import { Eye, EyeClosed } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '../../../providers/UserContextProvider';
 import { useState } from 'react';
 
 export default function RegisterForm() {
@@ -15,6 +16,8 @@ export default function RegisterForm() {
 
 
   const router = useRouter();
+  const { refreshUser } = useUser();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -37,6 +40,7 @@ export default function RegisterForm() {
       console.log('Server response:', data);
       if(res.ok) {
         localStorage.setItem('token', data.token);
+        await refreshUser();
         router.push('/'); 
       }
       else {

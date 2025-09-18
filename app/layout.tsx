@@ -1,4 +1,5 @@
 import "./globals.css";
+import { UserContextProvider } from "../providers/UserContextProvider";
 
 export const metadata = {
   title: 'Shrinkr',
@@ -19,7 +20,9 @@ export default function RootLayout({
         <title>Shrinkr</title>
       </head>
       <body className="w-full">
-        {children}
+        <UserContextProvider>
+          {children}
+        </UserContextProvider>
       </body>
     </html>
   );
