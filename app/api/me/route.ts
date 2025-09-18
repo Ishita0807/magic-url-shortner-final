@@ -3,27 +3,28 @@ import jwt from "jsonwebtoken";
 import { prisma } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
+    // This API route only runs on the server, but we can still guard against missing headers
     const JWT_SECRET = process.env.JWT_SECRET!;
-    const token = request.headers.get('Authorization')?.split(' ')[1]; //Bearer token
-
-    // Format: "Bearer <token>"
-
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const token = authHeader.split(' ')[1];
     if (!token) {
-        return NextResponse.json({error: 'Unauthorized'}, {status: 401});
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const decoded = jwt.verify(token, JWT_SECRET);
-    if (!decoded) {
-        return NextResponse.json({error: 'Unauthorized'}, {status: 401});
+    let decoded;
+    try {
+        decoded = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    console.log('Decoded JWT:', decoded);
-    const {user_id} = (decoded as { user_id: string });
-    console.log('Decoded ID:', user_id);
+    const { user_id } = decoded as { user_id: string };
     const user = await prisma.user.findUnique({
         where: { id: user_id },
     });
-
     if (!user) {
-        return NextResponse.json({error: 'User not found'}, {status: 404});
+        return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
     return NextResponse.json({
         id: user.id,
