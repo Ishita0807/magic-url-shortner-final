@@ -62,7 +62,7 @@ const ShortURLsByUser = () => {
         }
 
         fetchUrls()
-    }, [])
+    }, [router])
 
     return (
         <div>
